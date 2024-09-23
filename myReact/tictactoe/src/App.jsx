@@ -21,7 +21,7 @@ function Board() {
   function handleClick(i) {
     if(squares[i] || calculateWinner(squares)) {
       return;
-    }
+    } /*if sq already done or wins then do nothing*/
 
     const nextArray = squares.slice()
     nextArray[i] = xIsNext ? "X" : "O"
@@ -46,6 +46,19 @@ function Board() {
     status = 'Next player: ' + (xIsNext ? 'X' : 'O');
   }
 
+  if(winner) {
+    return (
+         <>
+      <div className="status">
+        <h1 className='winline'>{status}</h1>
+      </div>
+      <img src="/youwin.gif" alt="youwin" />
+      <div>
+        <ResetButton onClick={reset} />
+      </div>
+   </>
+    )
+  }
 
     return (
    <>

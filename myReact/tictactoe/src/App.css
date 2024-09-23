@@ -50,3 +50,9 @@
   cursor: pointer;
 }
 
+
+.winline {
+  color: rgb(0, 157, 255);
+  text-decoration: wavy;
+}
+
