@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CaminoV1Application<camino_v1>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.camino.camino_v1.CaminoV1Application",
+            "projectName": "camino_v1",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
