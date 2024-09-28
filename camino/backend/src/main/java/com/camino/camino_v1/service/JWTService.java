@@ -1,12 +1,12 @@
 package com.camino.camino_v1.service;
 
-import java.util.Base64;
+// import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import javax.crypto.KeyGenerator;
+// import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,17 +20,17 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JWTService {
     
-    private String SECRET_KEY = "";
+    private String SECRET_KEY = "357638792F423F4428472B4B6250655368566D597133743677397A2443264629";
 
-    public JWTService() {
-        try{
-            KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
-            SecretKey SK = keyGen.generateKey();
-            SECRET_KEY = Base64.getEncoder().encodeToString(SK.getEncoded());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+    // public JWTService() {
+    //     try{
+    //         KeyGenerator keyGen = KeyGenerator.getInstance("HmacSHA256");
+    //         SecretKey SK = keyGen.generateKey();
+    //         SECRET_KEY = Base64.getEncoder().encodeToString(SK.getEncoded());
+    //     } catch (Exception e) {
+    //         throw new RuntimeException(e);
+    //     }
+    // }
 
     public String generateToken(String userName) {
 

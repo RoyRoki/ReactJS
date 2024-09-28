@@ -7,8 +7,8 @@ import com.camino.camino_v1.model.User;
 
 public interface UserRepository extends MongoRepository<User, String> {
 
-    @Query("{name:'?0'}")
-    User findUserByName(String name);
+    @Query("{username:'?0'}")
+    User findUserByName(String username);
 
     @Query("{email:'?0'}")
     User findUserByEmail(String email);

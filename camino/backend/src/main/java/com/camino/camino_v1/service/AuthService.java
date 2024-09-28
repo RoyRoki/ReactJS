@@ -28,10 +28,10 @@ public class AuthService {
     public String verify(User user) {
         Authentication authentication = 
                     authManager.authenticate
-                    (new UsernamePasswordAuthenticationToken(user.getName(), user.getPassword()));
+                    (new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
             
             if(authentication.isAuthenticated())
-                    return jwtService.generateToken(user.getName());
+                    return jwtService.generateToken(user.getUsername());
             
             return "Fail";
         
@@ -39,7 +39,6 @@ public class AuthService {
     
     public User save(User newUser) {
         boolean isExists = userRepository.existsByEmail(newUser.getEmail());
-
         if(isExists) return null;
         else {
           newUser.setPassword(encoder.encode(newUser.getPassword()));

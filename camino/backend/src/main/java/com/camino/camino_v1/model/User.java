@@ -12,7 +12,7 @@ public class User {
     @Id
     private String id;
 
-    private String name;
+    private String username;
     
     private String email;
 
@@ -20,8 +20,8 @@ public class User {
 
     private Role role;
 
-    public User(String name, String email,String password, Role role) {
-        this.name = name;
+    public User(String username, String email,String password, Role role) {
+        this.username = username;
         this.email = email;
         this.password = password;
         this.role = role;

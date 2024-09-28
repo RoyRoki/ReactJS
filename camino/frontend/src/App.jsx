@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import SignupForm from './singupForm';
+import LoginForm from './LoginForm';
+import UserList from './UsersList';
 
 function App() {
   const [test, setTest] = useState("not connected");
@@ -27,7 +28,10 @@ function App() {
   return (
     <>
      <button onClick={handleOnClick}>Test BF realation</button>
-     <h1>{test}</h1> 
+     <h1>{test}</h1>
+     <SignupForm />
+     <LoginForm />
+     <UserList /> 
     </>
   )
 }
