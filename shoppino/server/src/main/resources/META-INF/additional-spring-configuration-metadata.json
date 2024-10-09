@@ -1,0 +1,37 @@
+{"properties": [
+  {
+    "name": "app.jwt.refreshtoken.expiration.time",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt.refreshtoken.expiration.time'"
+  },
+  {
+    "name": "app.jwt.accesscookie.expiration.time",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt.accesscookie.expiration.time'"
+  },
+  {
+    "name": "app.jwt.accesstoken.expiration.time",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt.accesstoken.expiration.time'"
+  },
+  {
+    "name": "app.jwt.security.strength",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt.security.strength'"
+  },
+  {
+    "name": "app.jwt.secret_key",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt.secret_key'"
+  },
+  {
+    "name": "app.jwt.refreshcookie.expiration.time",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt.refreshcookie.expiration.time'"
+  },
+  {
+    "name": "public.endpoints",
+    "type": "java.lang.String",
+    "description": "A description for 'public.endpoints'"
+  }
+]}

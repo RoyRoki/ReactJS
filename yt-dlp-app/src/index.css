@@ -1,0 +1,359 @@
+body {
+  margin: 10px;
+  display: grid;
+  grid-column: 1;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #030311;
+opacity: 0.8;
+background-image:  linear-gradient(30deg, #160d4c 12%, transparent 12.5%, transparent 87%, #160d4c 87.5%, #160d4c), linear-gradient(150deg, #160d4c 12%, transparent 12.5%, transparent 87%, #160d4c 87.5%, #160d4c), linear-gradient(30deg, #160d4c 12%, transparent 12.5%, transparent 87%, #160d4c 87.5%, #160d4c), linear-gradient(150deg, #160d4c 12%, transparent 12.5%, transparent 87%, #160d4c 87.5%, #160d4c), linear-gradient(60deg, #160d4c77 25%, transparent 25.5%, transparent 75%, #160d4c77 75%, #160d4c77), linear-gradient(60deg, #160d4c77 25%, transparent 25.5%, transparent 75%, #160d4c77 75%, #160d4c77);
+background-size: 52px 91px;
+background-position: 0 0, 0 0, 26px 46px, 26px 46px, 0 0, 26px 46px;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+/* Container Styling */
+.audio-explorer-container {
+    text-align: center;
+    background-color: #121212;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 600px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Title Styling */
+.audio-explorer-container h1 {
+    font-size: 2em;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+    margin-bottom: 20px;
+}
+
+/* List Styling */
+.audio-list {
+    max-height: 300px;
+    overflow: scroll;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.audio-item {
+    margin: 10px 0;
+}
+
+/* Button Styling */
+.audio-explorer-container button {
+    background-color: #1f1f1f;
+    color: #ff6b6b;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.audio-explorer-container button:hover {
+    background-color: #ff6b6b;
+    color: #1f1f1f;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+}
+
+.audio-explorer-container button:focus {
+    outline: none;
+}
+
+/* Audio Player Styling */
+.audio-player {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.audio-player h2 {
+    font-size: 1.5em;
+    color: #ffcc00;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+.audio-player audio {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+
+
+/* Scoped styling for DownloadForm */
+.download-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 30px auto;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(50px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.download-form-container h2 {
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+    text-align: center;
+}
+
+/* Input and Select Fields */
+.download-form-container input,
+.download-form-container select {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background-color: #1f1f1f;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/* Buttons */
+.download-form-container button {
+    background-color: #1f1f1f;
+    color: #ff6b6b;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.download-form-container button:hover {
+    background-color: #ff6b6b;
+    color: #1f1f1f;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+}
+
+.download-form-container button:focus {
+    outline: none;
+}
+
+/* Button group styling */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.download-form-container p {
+    text-align: center;
+    margin-top: 10px;
+}
+
+
+
+/* Container Styling */
+.video-explorer-container {
+    text-align: center;
+    background-color: #121212;
+    color: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 800px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Title Styling */
+.video-explorer-container h1 {
+    font-size: 2em;
+    color: #ff6b6b;
+    text-shadow: 0 0 10px rgba(255, 107, 107, 0.8);
+    margin-bottom: 20px;
+}
+
+/* List Styling */
+.video-list {
+    max-height: 500px;
+    overflow: scroll;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.video-item {
+    margin: 10px 0;
+}
+
+/* Button Styling */
+.video-explorer-container button {
+    background-color: #1f1f1f;
+    color: #ff6b6b;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s, box-shadow 0.3s;
+}
+
+.video-explorer-container button:hover {
+    background-color: #ff6b6b;
+    color: #1f1f1f;
+    box-shadow: 0 0 15px rgba(255, 107, 107, 0.6);
+}
+
+.video-explorer-container button:focus {
+    outline: none;
+}
+
+/* Video Player Styling */
+.video-player {
+    margin-top: 30px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.video-player h2 {
+    font-size: 1.5em;
+    color: #ffcc00;
+    text-shadow: 0 0 10px rgba(255, 204, 0, 0.8);
+}
+
+.video-player video {
+    width: 100%;
+    max-width: 600px;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+@font-face {
+    font-family: "Liberty";
+    src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/907368/liberty.otf');
+}
+
+
+.text {
+    font-family: 'Liberty';
+    font-weight: 100;
+    font-size: 7rem;
+    letter-spacing: -0.25em;
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+
+    .letter {
+        color: #d9fdff;
+        text-shadow: 0 0 2rem #00f0ff;
+        display: inline-block;
+
+        &.letter-2 {
+            transform: translate(-0.2rem, 1rem) rotate(10deg);
+            animation: flicker 2s ease-in-out infinite alternate;
+        }
+    }
+}
+
+@keyframes flicker {
+    
+    0%, 5% {
+        opacity: 1;
+        transform: translate(-0.2rem, 1rem) rotate(10deg);
+    }
+    5.5%, 7% {
+        opacity: 0;
+    }
+    6%, 6.5%, 8%, 100% {
+        opacity: 1;
+        transform: translate(-0.2rem, 1rem) rotate(10deg);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-0.2rem, 1rem) rotate(13deg);
+    }
+}
+
+
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content {
+    display: flex;
+    width: 100%;
+}
+
+.left {
+    flex: 1;
+    padding: 20px;
+}
+
+.right {
+    flex: 1;
+    padding: 20px; /* Adjust as necessary */
+}
+
+
+@media (max-width: 768px) {
+    .text {
+        font-size: 4rem; /* Adjust the font size for smaller screens */
+    }
+
+    .app-container {
+        display: block; /* Stack components vertically */
+    }
+
+    .content {
+        display: block; /* Set to block for vertical stacking */
+    }
+
+    .left,
+    .right {
+        width: 100%; /* Full width on smaller screens */
+        padding: 0; /* Remove padding for better alignment */
+        margin: 10px 0; /* Add margin for spacing */
+    }
+
+    /* Adjust container widths to be responsive */
+    .audio-explorer-container,
+    .download-form-container,
+    .video-explorer-container {
+        width: 90%; /* Make the width responsive */
+        margin: 10px auto; /* Adjust margin */
+    }
+}
