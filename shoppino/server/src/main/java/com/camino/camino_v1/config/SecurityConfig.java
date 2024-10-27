@@ -40,7 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("auth/signup", "auth/login", "auth/api")
                 .permitAll()
                 .anyRequest().authenticated())
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(customizer -> customizer.disable())
                 .sessionManagement(session -> session
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
@@ -64,7 +64,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
 	CorsConfiguration configuration = new CorsConfiguration();
 	configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173/"));
-	configuration.setAllowedMethods(Arrays.asList("GET","POST"));
+	configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT"));
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
     configuration.setExposedHeaders(Arrays.asList("Authorization"));
     configuration.setAllowCredentials(true);

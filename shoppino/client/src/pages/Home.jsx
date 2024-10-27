@@ -1,26 +1,47 @@
-import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout, setLoading } from '../features/slice/AuthSlice';
+import AuthService from '../services/AuthService';
 import { useNavigate } from 'react-router-dom';
+import LoadingPage from './LoadingPage';
+import NavBer from '../components/navComponents/NavBer';
 
-function Home() {
-    const navigate = useNavigate()
-    const authStatus = useSelector(state => state.auth.value);
-    const email = useSelector(state => state.auth.email);
+const Home = () => {
+  const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.authslice.user);
+  console.log("home page ",user)
+  const loading = useSelector((state) => state.authslice.loading);
 
-    useEffect(()=> {}, [authStatus])
+  useEffect(() => {
+    const getUser = async () => {
+      dispatch(setLoading(true));
+      try {
+        const fetchedUser = await AuthService.getUser();
+        if (fetchedUser) {
+          dispatch(login(fetchedUser));
+        } else {
+          dispatch(logout());
+          navigate('/login')
+        }
+      } catch (error) {
+        dispatch(logout());
+        navigate('/login')
+      } finally {
+        dispatch(setLoading(false));
+      }
+    };
+    
+    getUser();
+  }, []);
 
+  if (loading) return <LoadingPage />
+  if(user === null) return;
   return (
     <>
-    <h1>Home sweet  home </h1>
-    <h3>Login Status: {authStatus? "Login User":"Login please"}</h3>
-    <h2>Email Id: {email || "not mention"}</h2>
-      {
-        authStatus 
-          ? <button onClick={() => navigate("/logout")}>Logout</button> 
-          : <button onClick={() => navigate("/login")}>Login</button>
-      }    
+      <NavBer  />
     </>
   )
-}
+};
 
-export default Home
+export default Home;

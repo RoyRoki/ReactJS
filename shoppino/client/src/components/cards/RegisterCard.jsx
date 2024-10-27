@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
 import { useForm } from "react-hook-form"
 
-import { useDispatch } from 'react-redux';
-import { login } from '../../features/authState/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, setLoading, logout } from '../../features/slice/AuthSlice';
+import LoadingPage from '../../pages/LoadingPage';
 
 
 function RegisterCard() {
@@ -17,13 +18,16 @@ function RegisterCard() {
     const [passwordHide, setHide] = useState(true)
     const navigate = useNavigate();
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const loading = useSelector((state) => state.authslice.loading);
+    const user = useSelector((state) => state.authslice.user);
 
   const onSubmit = async (data) => {
       setError('');
       try {
         await AuthService.register(data);
-        dispatch(login(data.email));
+        const fetchedUser = await AuthService.getUser(); 
+        dispatch(login(fetchedUser));
         navigate('/home');  
       } catch (err) {
         setError(err.message);
@@ -48,6 +52,21 @@ function RegisterCard() {
     setError("Passwords do not match")
     return false;
   };
+
+  useEffect(() => {
+    if(user) {
+      console.log("user already login , send to home (signup page)");
+      navigate('/home');
+    } else {
+      console.log("user not login,(signup page)")
+    }
+  }, [navigate])
+
+
+  if(loading) {
+    return <LoadingPage />
+  }
+
 
   return (
 <section className='bg-gray-50 min-h-screen flex items-center justify-center'>

@@ -1,33 +1,38 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthService';
 import { useForm } from "react-hook-form"
 
-import { useDispatch } from 'react-redux';
-import { login } from '../../features/authState/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, setLoading, logout } from '../../features/slice/AuthSlice';
+import LoadingPage from '../../pages/LoadingPage';
 
 
 
 function LoginCard() {
 
   const {register, handleSubmit,watch,formState: { errors },} = useForm();
-  const email = watch("username")
+  const email = watch("email")
 
   const [error, setError] = useState('');
-  const [passwordHide, setHide] = useState(true)
+  const [passwordHide, setHide] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  // const IsLoggedIn = useSelector(state => state.auth.value)
-  const dispatch = useDispatch()
+  const loading = useSelector((state) => state.authslice.loading);
+  const user = useSelector((state) => state.authslice.user);
+
 
   const onSubmit = async (data) => {
     console.log("clicked Submit button");
       setError('');
 
       try {
-        console.log(data.username)
-        await AuthService.login(data);
-        dispatch(login(data.username));
+        console.log(data)
+        const responce = await AuthService.login(data);
+        console.log(responce)
+        const fetchedUser = await AuthService.getUser(); 
+        dispatch(login(fetchedUser))
         navigate('/home');  
       } catch (err) {
         setError(err.message);
@@ -40,6 +45,19 @@ function LoginCard() {
   const isEmail = (email) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
+  }
+  useEffect(() => {
+    if(user) {
+      console.log("user already login , send to home (login page)");
+      navigate('/home');
+    } else {
+      console.log("user not login,(login page)")
+    }
+  }, [navigate])
+
+
+  if(loading) {
+    return <LoadingPage />
   }
 
   return (
@@ -60,7 +78,7 @@ function LoginCard() {
           <input className={"p-2 shadow-inner mt-9 rounded-xl focus:outline-none focus:ring "
             +(isEmail(email)?"focus:ring-blue-300":"focus:ring-red-300")}
              type="email" placeholder='Email'
-             {...register("username", {required: true, validate:(value) => isEmail(value)})}
+             {...register("email", {required: true, validate:(value) => isEmail(value)})}
           />
 
           <div className='relative'>

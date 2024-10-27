@@ -26,5 +26,14 @@ public class MyUserDetailsService implements UserDetailsService {
 
         return new UserPrincipal(user);
     }
-    
+
+    public UserDetails loadUserByUser_id(long user_id) throws UsernameNotFoundException {
+        User user = userRepository.getReferenceById(user_id);
+
+        if(user == null) {
+            throw new UsernameNotFoundException(user_id+" Not Found In DB");
+        }
+
+        return new UserPrincipal(user);
+    }
 }

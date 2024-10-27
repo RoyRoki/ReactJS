@@ -1,34 +1,62 @@
 package com.camino.camino_v1.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@Entity
 @Data
-@Document
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "users")
 public class User {
-    
-    @Id
-    private String id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = false)
     private String username;
-    
+
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
-    private Role role;
+    private String address1;
+    private String address2;
 
-    public User(String username, String email,String password, Role role) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-    public enum Role {
-        USER,
-        ADMIN;
-    }
-    
+    private String postalCode;
+    private String mobileNo;
+
+    private Integer age;
+    private String gender;
+
+    @Builder.Default()
+    private Boolean isActive = true;
+
+    @Builder.Default()
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    @ToString.Exclude
+    private List<RefreshToken> refreshTokens = new ArrayList<>();   
+
 }

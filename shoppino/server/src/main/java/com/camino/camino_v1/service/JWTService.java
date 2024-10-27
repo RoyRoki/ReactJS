@@ -40,17 +40,16 @@ public class JWTService {
         //     }
         // }
     
-        public String generateToken(String userName) {
-    
-            
+        public String generateToken(String email) {
+                
             Map<String, Object> claims = new HashMap<>();
             
-            logger.info("Jwt token created for {}", userName);
+            logger.info("Jwt token created for {}", email);
     
             return Jwts.builder()
                         .claims()
                         .add(claims)
-                        .subject(userName)
+                        .subject(email)
                         .issuedAt(new Date(System.currentTimeMillis()))
                         .expiration(new Date(System.currentTimeMillis() + appConstants.getJWT_ACCESSTOKEN_EXPIRATION_TIME()))
                         .and()
@@ -63,7 +62,7 @@ public class JWTService {
             return Keys.hmacShaKeyFor(keyBytes);
         }
     
-        public String extractUserName(String token) {
+        public String extractEmail(String token) {
             return extractClaim(token, Claims::getSubject);
         }
         
@@ -82,8 +81,8 @@ public class JWTService {
     
     
         public boolean validateToken(String token, UserDetails userdetails) {
-            final String userName = extractUserName(token);
-            return (userName.equals(userdetails.getUsername()) && !isTokenExpired(token));
+            final String email = extractEmail(token);
+            return (email.equals(userdetails.getUsername()) && !isTokenExpired(token));
         }
     
         public boolean isTokenExpired(String token) {
@@ -94,24 +93,17 @@ public class JWTService {
             return extractClaim(token, Claims::getExpiration);
         }
     
-        public String generateTokenFromClaims(Claims claims, String username) {
+        public String generateTokenFromClaims(Claims claims, String email) {
                         return Jwts.builder()
                         .claims()
                         .add(claims)
-                        .subject(username)
+                        .subject(email)
                         .issuedAt(new Date(System.currentTimeMillis()))
                         .expiration(new Date(System.currentTimeMillis() + appConstants.getJWT_ACCESSTOKEN_EXPIRATION_TIME()))
                         .and()
                         .signWith(getKey())
                         .compact();
-        // return Jwts.builder()
-        //         .claims()
-        //         .add(claims)
-        //         .issuedAt(new Date(System.currentTimeMillis()))
-        //         .expiration(new Date(System.currentTimeMillis() + appConstants.getJWT_ACCESSTOKEN_EXPIRATION_TIME()))  
-        //         .and()
-        //         .signWith(getKey())
-        //         .compact();
+
     }
     
 }

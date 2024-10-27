@@ -2,11 +2,11 @@ import React from 'react'
 import SvgComponent from '../SvgComponent'
 import Searchbar from '../buttons/Searchber'
 import TrandingButton from '../buttons/TrandingButton'
+import LoginButton from '../buttons/LoginButton'
 import CartButton from '../buttons/CartButton'
 import MoreButton from '../buttons/MoreButton'
-import UserDetailsButton from '../buttons/UserDetailsButton'
 
-function NavBer() {
+function PublicNavBer() {
   return (
 <>
     <div className='bg-[#230D41] w-full h-[65px] flex gap-[50px] items-center justify-between'>
@@ -21,7 +21,7 @@ function NavBer() {
 
         <div className='flex justify-evenly mx-2 gap-7'>
                 <TrandingButton />
-                <UserDetailsButton />
+                <LoginButton />
                 <CartButton />
                 <MoreButton />                       
         </div>
@@ -30,4 +30,4 @@ function NavBer() {
   )
 }
 
-export default NavBer
+export default PublicNavBer

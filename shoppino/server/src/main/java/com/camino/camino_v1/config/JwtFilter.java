@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.camino.camino_v1.model.RefreshToken;
+import com.camino.camino_v1.repository.UserRepository;
 import com.camino.camino_v1.service.JWTService;
 import com.camino.camino_v1.service.MyUserDetailsService;
 import com.camino.camino_v1.service.RefreshTokenService;
@@ -37,6 +38,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private RefreshTokenService refreshTokenService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     ApplicationContext context;
 
     @Autowired
@@ -48,6 +52,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
 
         String requestURI = request.getRequestURI();
+        logger.info("/{} hit",requestURI);
         // Allow access to public URLs without checking JWT
         if(isPublicUrl(requestURI)) {
             logger.info("Accessing public URL: {}", requestURI);
@@ -56,9 +61,9 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         
         String accessToken = null;
-        String username = null;
         String refreshToken = null;
         UserDetails userDetails = null;
+        String email = null;
 
         accessToken = extracJwtToken(request);
         boolean validJwtToken = tryCheckJwtExpirey(accessToken);
@@ -68,9 +73,9 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if(refreshToken != null) {
                 RefreshToken refreshTokenEntity = refreshTokenService.varifyExpiration(refreshToken);
-                if(refreshTokenEntity != null && refreshTokenEntity.getUsername() != null) {
+                if(refreshTokenEntity != null) {
                     // Refresh token is valid, create a new JWT
-                   accessToken = setNewTokensReturnJWT(response, refreshTokenEntity.getUsername()); //set new token and update jwt
+                   accessToken = setNewTokensReturnJWT(response, refreshTokenEntity.getUser().getId()); //set new token and update jwt
                 }
             } else {
                 logger.info("Need Login (No cookie found return;)");
@@ -81,16 +86,18 @@ public class JwtFilter extends OncePerRequestFilter {
         }
 
         // Process with the valid access token
-            username = jwtService.extractUserName(accessToken);
-            if(username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+            email = jwtService.extractEmail(accessToken);
+            logger.info(email+" extract from jtw token");
+
+            if(email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             userDetails = context.getBean(MyUserDetailsService.class)
-                                 .loadUserByUsername(username);
+                                 .loadUserByUsername(email);
                 if(jwtService.validateToken(accessToken, userDetails)) {
 
                      UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken
-                                (username, null, userDetails.getAuthorities());
+                                (email, null, userDetails.getAuthorities());
                     
                     authToken.setDetails(new WebAuthenticationDetailsSource()
                                             .buildDetails(request));
@@ -128,10 +135,10 @@ public class JwtFilter extends OncePerRequestFilter {
         return null;                
     }
 
-    public String setNewTokensReturnJWT(HttpServletResponse response, String username) {
+    public String setNewTokensReturnJWT(HttpServletResponse response, long user_id) {
 
-        RefreshToken newRefToken = refreshTokenService.createRefreshToken(username);
-        String newJwtToken = jwtService.generateToken(username);
+        RefreshToken newRefToken = refreshTokenService.createRefreshToken(user_id);
+        String newJwtToken = jwtService.generateToken(userRepository.getReferenceById(user_id).getEmail());
 
         Cookie refreshTokenCookie = new Cookie("RefreshToken", newRefToken.getToken());
             refreshTokenCookie.setMaxAge(appConstants.getJWT_REFRESHCOOKIE_EXPIRATION_TIME());

@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.camino.camino_v1.config.JwtFilter;
+import com.camino.camino_v1.dto.AuthRegisterDTO;
 import com.camino.camino_v1.model.User;
 import com.camino.camino_v1.repository.UserRepository;
 import com.camino.camino_v1.util.AppConstants;
@@ -42,32 +43,35 @@ public class AuthService {
        this.encoder = new BCryptPasswordEncoder(appConstants.getJWT_SECURITY_STRENGTH());
     }
 
-    public String verify(User user) {
+    public long verify(String email, String password) {
         Authentication authentication = 
                     authManager.authenticate
-                    (new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+                    (new UsernamePasswordAuthenticationToken(email, password));
             
             if(authentication.isAuthenticated())
-                    return jwtService.generateToken(user.getUsername());
+                    return userRepository.findUserByEmail(email).getId();
             
-            return "Fail";
-        
+            throw new RuntimeException("Authentication failed");    
     }
     
-    public boolean save(HttpServletResponse response, User newUser) {
-        boolean isExists = userRepository.existsByEmail(newUser.getEmail());
+    public boolean save(HttpServletResponse response, AuthRegisterDTO authRegister) {
+        boolean isExists = userRepository.existsByEmail(authRegister.getEmail());
         if(isExists) return false;
         else {
-          newUser.setPassword(encoder.encode(newUser.getPassword()));
-          newUser.setRole(User.Role.USER);
-          userRepository.save(newUser);
-          jwtFilter.setNewTokensReturnJWT(response, newUser.getUsername());
+            User newUser = User.builder()
+                    .username(authRegister.getUsername())
+                    .email(authRegister.getEmail())
+                    .build();
+
+          newUser.setPassword(encoder.encode(authRegister.getPassword()));
+          User savedUser = userRepository.save(newUser);
+          jwtFilter.setNewTokensReturnJWT(response, savedUser.getId());
           return true;  
         }
     }
 
-    public Object getAllUsers() {
-        return userRepository.findAll();
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
 
     public void doLogout(HttpServletRequest request, HttpServletResponse response) {
